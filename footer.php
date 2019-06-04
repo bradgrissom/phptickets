@@ -27,8 +27,10 @@ File Version	: 1.9
 	  </tr>
 	  <tr>
 		<td align="center"><br />
-		<a href="http://www.triangle-solutions.com" target="_blank" title="triangle solutions web development">Triangle Solutions Ltd</a> |
-		<a href="http://www.phpsupporttickets.com" target="_blank" title="php support tickets">PHP Support Tickets <?php echo $version ?></a><br /><br />
+			<h2>NOTE on June 4th 2019: Brad and Ginger have been updating this website!
+			    Let Brad know if you have any problems with the website!
+			    Email: <a href="mailto:bradworktickets@sogee.com">bradworktickets@sogee.com</a>
+			</h2>
 		</td>
 	  </tr>
 	</table>
