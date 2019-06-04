@@ -53,9 +53,9 @@ File Version	: 1.9
 #################################### DATABASE CONNECTION ####################################
 #############################################################################################
 
-	IF ($link = mysql_connect($host, $user, $pass))
+	IF ($link = mysqli_connect($host, $user, $pass))
 		{
-		IF (!mysql_select_db($data))
+		IF (!mysqli_select_db($data))
 			{
 			echo 'This script has connected to the MySQL but could not connect to the Database - change database name in config.';
 			exit();
