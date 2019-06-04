@@ -174,7 +174,7 @@ File Version	: 1.9
 				WHERE tickets_users_username = '$user'
 				AND tickets_users_status = '1'";
 
-		$result = mysqli_query($query);
+		$result = mysqli_query($link, $query);
 
 		IF (!$result)
 			{
