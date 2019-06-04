@@ -50,25 +50,6 @@ File Version	: 1.9
 
 
 #############################################################################################
-#################################### DATABASE CONNECTION ####################################
-#############################################################################################
-
-	IF ($link = mysqli_connect($host, $user, $pass))
-		{
-		IF (!mysqli_select_db($link, $data))
-			{
-			echo 'This script has connected to the MySQL but could not connect to the Database - change database name in config.';
-			exit();
-			}
-		}
-	ELSE
-		{
-		echo 'This script could not connect to the MySQL server change host/user/pass values in config.';
-		exit();
-		}
-
-
-#############################################################################################
 #################################### SEND EMAIL FUNCTION ####################################
 #############################################################################################
 
@@ -167,14 +148,14 @@ File Version	: 1.9
 ########################### CHECK USER IS LOGGED IN FOR CUSTOMERS ###########################
 #############################################################################################
 
-	Function AuthUser($user, $pass)
+	Function AuthUser($dblink, $user, $pass)
 		{
 		$query = "	SELECT tickets_users_password
 				FROM tickets_users
 				WHERE tickets_users_username = '$user'
 				AND tickets_users_status = '1'";
 
-		$result = mysqli_query($link, $query);
+		$result = mysqli_query($dblink, $query);
 
 		IF (!$result)
 			{

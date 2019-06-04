@@ -34,6 +34,28 @@ File Version	: 1.9
 	include_once ('config.php');
 	include_once ('class/functions.php');
 
+	// BAG 2019.06.03
+	//-------------------------------------------
+	//              DB CONNECTION
+	//-------------------------------------------
+	IF ($dbcon = mysqli_connect($host, $user, $pass))
+		{
+		IF (!mysqli_select_db($dbcon, $data))
+			{
+			echo 'This script has connected to the MySQL but could not connect to the Database - change database name in config.';
+			exit();
+			}
+		}
+	ELSE
+		{
+		echo 'This script could not connect to the MySQL server change host/user/pass values in config.';
+		exit();
+		}
+	//-------------------------------------------
+	//          end DB CONNECTION
+	//-------------------------------------------
+
+
 	IF (!isset($_REQUEST['lang']))
 		{
 		$_REQUEST['lang'] = $langdefault;
@@ -91,7 +113,7 @@ File Version	: 1.9
 			{
 			IF (isset($_GET['sub']))
 				{
-				IF ((AuthUser($_REQUEST['username'], $_REQUEST['password'])) || (isset($_COOKIE['demomode']) && $demomode == 'ON' && $_POST['username'] == 'demo' && $_POST['password'] == 'demo'))
+				IF ((AuthUser($dbcon, $_REQUEST['username'], $_REQUEST['password'])) || (isset($_COOKIE['demomode']) && $demomode == 'ON' && $_POST['username'] == 'demo' && $_POST['password'] == 'demo'))
 					{
 					$_SESSION['stu_username'] = $_POST['username'];
 					$_SESSION['stu_password'] = $_POST['password'];
@@ -105,8 +127,8 @@ File Version	: 1.9
 								FROM tickets_users
 								WHERE tickets_users_username = '".$_SESSION['stu_username']."'";
 
-						$result = mysql_query($query);
-						$row    = mysql_fetch_array($result);
+						$result = mysqli_query($dbcon, $query);
+						$row    = mysqli_fetch_array($result);
 
 	// UPDATE THE NEW LOGGED IN FIELD IN THE USER ACCOUNT
 
@@ -116,7 +138,7 @@ File Version	: 1.9
 								tickets_users_lastlogin	     = '".$row['0']."'
 								WHERE tickets_users_username = '".$_SESSION['stu_username']."'";
 
-						$result = mysql_query($query);
+						$result = mysqli_query($dbcon, $query);
 						}
 ?>
 					<meta http-equiv="refresh" content="0;url=<?php echo $_SERVER['PHP_SELF'] ?>" />
@@ -176,11 +198,11 @@ File Version	: 1.9
 						FROM tickets_users
 						WHERE tickets_users_email = '".$_POST['email']."'";
 
-				$result = mysql_query($query);
+				$result = mysqli_query($dbcon, $query);
 
-				IF (mysql_num_rows($result) > '0')
+				IF (mysqli_num_rows($result) > '0')
 					{
-					$row = mysql_fetch_array($result);
+					$row = mysqli_fetch_array($result);
 
 	// OUTGOING EMAIL MESSAGE TO USERS WHO REQUEST RESEND DETAILS
 
@@ -271,9 +293,9 @@ File Version	: 1.9
 							WHERE tickets_users_username = '".$_POST['username']."'
 							LIMIT 0,1";
 
-					$result = mysql_query($query);
+					$result = mysqli_query($dbcon, $query);
 
-					IF (mysql_num_rows($result) <= '0')
+					IF (mysqli_num_rows($result) <= '0')
 						{
 						$query = "	INSERT INTO tickets_users
 								SET
@@ -282,7 +304,7 @@ File Version	: 1.9
 								tickets_users_password = '".$_POST['password']."',
 								tickets_users_email    = '".$_POST['email']."'";
 
-						IF ($result = mysql_query($query))
+						IF ($result = mysqli_query($dbcon, $query))
 							{
 	// REGISTRATION EMAIL
 							$message  = 'Dear '.$_POST['name']."\n\n";
@@ -416,7 +438,7 @@ File Version	: 1.9
 								SET tickets_status = '".$_POST['status']."'
 								WHERE tickets_id   = '".$ticketid."'";
 
-						IF (mysql_query($query))
+						IF (mysqli_query($dbcon, $query))
 							{
 							$msg = 'Ticket '.$_POST['status'];
 							}
@@ -466,8 +488,8 @@ File Version	: 1.9
 
 	// SET PAGE NUMBER IF NONE SPECIFIED ASSUME IT IS EQUAL TO ONE
 
-			$result       = mysql_query($query);
-			$totaltickets = mysql_num_rows($result);
+			$result       = mysqli_query($dbcon, $query);
+			$totaltickets = mysqli_num_rows($result);
 
 			$per_page = $ticket_display;
 
@@ -501,7 +523,7 @@ File Version	: 1.9
 	// DISPLAY RESULTS
 
 			$query  = $query . " LIMIT $page_start, $per_page";
-			$result = mysql_query($query);
+			$result = mysqli_query($dbcon, $query);
 ?>
 			<div style="padding-top:5px"></div>
 <?php
@@ -572,7 +594,7 @@ File Version	: 1.9
 <?php
 	// LOOP THROUGH THE REQUESTS FOR THE USERS ACCOUNT
 
-				WHILE ($row = mysql_fetch_array($result))
+				WHILE ($row = mysqli_fetch_array($result))
 					{
 
 	// QUERY TO GET THE AMOUNT OF REPLIES TO A CERTAIN TICKET AND DATE OF LAST ENTRY
@@ -583,8 +605,8 @@ File Version	: 1.9
 							AND a.tickets_username = b.tickets_users_username
 							GROUP BY tickets_child";
 
-					$resultA = mysql_query($queryA);
-					$rowA    = mysql_fetch_array($resultA);
+					$resultA = mysqli_query($dbcon, $queryA);
+					$rowA    = mysqli_fetch_array($resultA);
 
 					IF ($rowA['ticket_count'] <= '0')
 						{
@@ -680,7 +702,7 @@ File Version	: 1.9
 						tickets_status	 = '".$_GET['closesub']."'
 						WHERE tickets_id = '".$_GET['ticketid']."'";
 
-				IF (mysql_query($query))
+				IF (mysqli_query($dbcon, $query))
 					{
 					$msg = 'Ticket '.$_GET['closesub'];
 					}
@@ -726,14 +748,14 @@ File Version	: 1.9
 							tickets_child 	  = '".$_GET['ticketid']."',
 							tickets_question  = '".addslashes($_POST['message'])."'";
 
-					IF ($result = mysql_query($query))
+					IF ($result = mysqli_query($dbcon, $query))
 						{
 
 	// CHECK THE FILE ATTACHMENT AND DISPLAY ANY ERRORS
 
 						IF ($allowattachments == 'TRUE' && (!isset($_COOKIE['demomode']) || $demomode != 'ON'))
 							{
-							FileUploadsVerification("$_FILES(userfile)", mysql_insert_id());
+							FileUploadsVerification("$_FILES(userfile)", mysqli_insert_id());
 							}
 
 	// EMAIL ADMINISTRATOR THE TICKET NOTIFICATION
@@ -807,9 +829,9 @@ File Version	: 1.9
 					AND tickets_username = '".$_SESSION['stu_username']."'
 					ORDER BY tickets_id ASC";
 
-			$result	      = mysql_query($query);
-			$totaltickets = mysql_num_rows($result);
-			$row	      = mysql_fetch_array($result);
+			$result	      = mysqli_query($dbcon, $query);
+			$totaltickets = mysqli_num_rows($result);
+			$row	      = mysqli_fetch_array($result);
 
 	// PRINT OUT THE TABLES TO HOLD THE TICKET INFO - REPLY SUBMISSION AND TOPIC AND ANY REPLIES AND ATTACHMENTS
 ?>
@@ -916,11 +938,11 @@ File Version	: 1.9
 				<td width="50%" valign="top" style="padding-top:5px">
 <?php
 			$j = '0';
-			$result = mysql_query($query);
+			$result = mysqli_query($dbcon, $query);
 
 	// LOOP THROUGH THE QUESTIOSN AND RESPONSES TO THIS QUESTION
 
-			WHILE ($row = mysql_fetch_array($result))
+			WHILE ($row = mysqli_fetch_array($result))
 				{
 ?>
 				<table width="97%" cellspacing="1" cellpadding="1" class="boxborder" align="center">
@@ -1064,19 +1086,19 @@ File Version	: 1.9
 							tickets_category  = '".$category['0']."',
 							tickets_question  = '".addslashes($_POST['message'])."'";
 
-					IF ($result = mysql_query($query))
+					IF ($result = mysqli_query($dbcon, $query))
 						{
-						$lastinsertid = mysql_insert_id();
+						$lastinsertid = mysqli_insert_id();
 
 	// CHECK THE FILE ATTACHMENT AND DISPLAY ANY ERRORS
 
 						IF ($allowattachments == 'TRUE' && !isset($_COOKIE['demomode']) || $demomode != 'ON')
 							{
-							FileUploadsVerification("$_FILES(userfile)", mysql_insert_id());
+							FileUploadsVerification("$_FILES(userfile)", mysqli_insert_id());
 							}
 	// EMAIL ADMINISTRATOR THE TICKET NOTIFICATION
 
-						$message  = "Ticket ID:\t ".mysql_insert_id()."\n";
+						$message  = "Ticket ID:\t ".mysqli_insert_id()."\n";
 						$message .= "Name:\t\t ".$_POST['name']."\n";
 						$message .= "Email:\t ".$_POST['email']."\n";
 						$message .= "Subject:\t ".$_POST['ticketsubject']."\n";
@@ -1124,8 +1146,8 @@ File Version	: 1.9
 						WHERE tickets_users_username = '".$_SESSION['stu_username']."'
 						LIMIT 0,1";
 
-				$result = mysql_query($query);
-				$row    = mysql_fetch_array($result);
+				$result = mysqli_query($dbcon, $query);
+				$row    = mysqli_fetch_array($result);
 				}
 			ELSE
 				{
@@ -1174,9 +1196,9 @@ File Version	: 1.9
 					FROM tickets_categories
 					ORDER BY tickets_categories_name ASC";
 
-			$result = mysql_query($query);
+			$result = mysqli_query($dbcon, $query);
 
-			WHILE ($row = mysql_fetch_array($result))
+			WHILE ($row = mysqli_fetch_array($result))
 				{
 				echo '<option value="'.$row['tickets_categories_id'].'|'.$row['tickets_categories_name'].'">'.$row['tickets_categories_name'].'</option>';
 				}
@@ -1193,9 +1215,9 @@ File Version	: 1.9
 					FROM tickets_status
 					ORDER BY tickets_status_order ASC";
 
-			$result = mysql_query($query);
+			$result = mysqli_query($dbcon, $query);
 
-			WHILE ($row = mysql_fetch_array($result))
+			WHILE ($row = mysqli_fetch_array($result))
 				{
 				echo '<option style="background-color:#'.$row['tickets_status_color'].'" value="'.$row['tickets_status_id'].'|'.$row['tickets_status_name'].'">'.$row['tickets_status_name'].'</option>';
 				}
@@ -1299,7 +1321,7 @@ File Version	: 1.9
 
 	IF (isset($result))
 		{
-		mysql_free_result($result);
-		mysql_close();
+		mysqli_free_result($result);
+		mysqli_close();
 		}
 ?>
