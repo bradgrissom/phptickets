@@ -1322,6 +1322,6 @@ File Version	: 1.9
 	IF (isset($result))
 		{
 		mysqli_free_result($result);
-		mysqli_close();
+		mysqli_close($dbcon);
 		}
 ?>
