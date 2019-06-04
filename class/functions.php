@@ -53,95 +53,112 @@ File Version	: 1.9
 #################################### SEND EMAIL FUNCTION ####################################
 #############################################################################################
 
-	Function SendMail(	$email,
-				$name,
-				$subject,
-				$message,
-				$response_flag = false
-				)
-		{
-		Global $sendmethod, $sockethost, $smtpauth, $smtpauthuser, $smtpauthpass, $socketfrom, $socketfromname, $socketreply, $socketreplyname;
+# BAG 2019.06.04
+Function SendMail($email,
+                  $name,
+                  $subject,
+                  $message,
+                  $response_flag = false
+                 )
+{
+    $success = mail($email, $subject, $message);
+    if (!$success) {
+        $errorMessage = error_get_last()['message'];
+        return ('2019.06.04 Brad Error: '.$errorMessage);
+    } else {
+        return ('2019.06.04 Brad Email Successfully sent!');
+    }
+}
 
-		include_once ('class.phpmailer.php');
-
-		$mail  = new phpmailer();
-
-		IF (file_exists('class/language/phpmailer.lang-en.php'))
-			{
-			$mail -> SetLanguage('en', 'class/language/');
-			}
-		ELSE
-			{
-			$mail -> SetLanguage('en', '../class/language/');
-			}
-
-		IF (isset($sendmethod) && $sendmethod == 'sendmail')
-			{
-			$mail -> IsSendmail();
-			}
-		ELSEIF (isset($sendmethod) && $sendmethod == 'smtp')
-			{
-			$mail -> IsSMTP();
-			}
-		ELSEIF (isset($sendmethod) && $sendmethod == 'mail')
-			{
-			$mail -> IsMail();
-			}
-		ELSEIF (isset($sendmethod) && $sendmethod == 'qmail')
-			{
-			$mail -> IsQmail();
-			}
-
-		$mail -> Host = $sockethost;
-
-		IF ($smtpauth == 'TRUE')
-			{
-			$mail -> SMTPAuth = true;
-			$mail -> Username = $smtpauthuser;
-			$mail -> Password = $smtpauthpass;
-			}
-
-		IF (!$response_flag && isset($_GET['caseid']) && ($_GET['caseid'] == 'NewTicket' || $_GET['caseid'] == 'view'))
-			{
-			$mail -> From     = $email;
-			$mail -> FromName = $name;
-			$mail -> AddReplyTo($email, $name);
-			}
-		ELSE
-			{
-			$mail -> From     = $socketfrom;
-			$mail -> FromName = $socketfromname;
-			$mail -> AddReplyTo($socketreply, $socketreplyname);
-			}
-
-		$mail -> IsHTML(False);
-		$mail -> Body    = $message;
-		$mail -> Subject = $subject;
-
-		IF (!$response_flag && isset($_GET['caseid']) && ($_GET['caseid'] == 'NewTicket' || $_GET['caseid'] == 'view'))
-			{
-			$mail -> AddAddress($socketfrom, $socketfromname);
-			}
-		ELSE
-			{
-			$mail -> AddAddress($email, $name);
-			}
-
-		# Brad Hack: Add Brad and Ginger to every e-mail sent
-		$mail -> AddAddress("brad.bradgrissom.com@gmail.com", "BradHack Grissom");
-		$mail -> AddAddress("gingermatney@gmail.com", "GingerHack Matney");
-
-		IF(!$mail -> Send())
-			{
-			return ('Error: '.$mail -> ErrorInfo);
-			}
-		ELSE
-			{
-			return ('Email Sent. '.$mail -> ErrorInfo);
-			}
-
-		$mail -> ClearAddresses();
-		}
+#	Function SendMail(	$email,
+#				$name,
+#				$subject,
+#				$message,
+#				$response_flag = false
+#				)
+#		{
+#		Global $sendmethod, $sockethost, $smtpauth, $smtpauthuser, $smtpauthpass, $socketfrom, $socketfromname, $socketreply, $socketreplyname;
+#
+#		include_once ('class.phpmailer.php');
+#
+#		$mail  = new phpmailer();
+#
+#		IF (file_exists('class/language/phpmailer.lang-en.php'))
+#			{
+#			$mail -> SetLanguage('en', 'class/language/');
+#			}
+#		ELSE
+#			{
+#			$mail -> SetLanguage('en', '../class/language/');
+#			}
+#
+#		IF (isset($sendmethod) && $sendmethod == 'sendmail')
+#			{
+#			$mail -> IsSendmail();
+#			}
+#		ELSEIF (isset($sendmethod) && $sendmethod == 'smtp')
+#			{
+#			$mail -> IsSMTP();
+#			}
+#		ELSEIF (isset($sendmethod) && $sendmethod == 'mail')
+#			{
+#			$mail -> IsMail();
+#			}
+#		ELSEIF (isset($sendmethod) && $sendmethod == 'qmail')
+#			{
+#			$mail -> IsQmail();
+#			}
+#
+#		$mail -> Host = $sockethost;
+#
+#		IF ($smtpauth == 'TRUE')
+#			{
+#			$mail -> SMTPAuth = true;
+#			$mail -> Username = $smtpauthuser;
+#			$mail -> Password = $smtpauthpass;
+#			}
+#
+#		IF (!$response_flag && isset($_GET['caseid']) && ($_GET['caseid'] == 'NewTicket' || $_GET['caseid'] == 'view'))
+#			{
+#			$mail -> From     = $email;
+#			$mail -> FromName = $name;
+#			$mail -> AddReplyTo($email, $name);
+#			}
+#		ELSE
+#			{
+#			$mail -> From     = $socketfrom;
+#			$mail -> FromName = $socketfromname;
+#			$mail -> AddReplyTo($socketreply, $socketreplyname);
+#			}
+#
+#		$mail -> IsHTML(False);
+#		$mail -> Body    = $message;
+#		$mail -> Subject = $subject;
+#
+#		IF (!$response_flag && isset($_GET['caseid']) && ($_GET['caseid'] == 'NewTicket' || $_GET['caseid'] == 'view'))
+#			{
+#			$mail -> AddAddress($socketfrom, $socketfromname);
+#			}
+#		ELSE
+#			{
+#			$mail -> AddAddress($email, $name);
+#			}
+#
+#		# Brad Hack: Add Brad and Ginger to every e-mail sent
+#		$mail -> AddAddress("brad.bradgrissom.com@gmail.com", "BradHack Grissom");
+#		$mail -> AddAddress("gingermatney@gmail.com", "GingerHack Matney");
+#
+#		IF(!$mail -> Send())
+#			{
+#			return ('Error: '.$mail -> ErrorInfo);
+#			}
+#		ELSE
+#			{
+#			return ('Email Sent. '.$mail -> ErrorInfo);
+#			}
+#
+#		$mail -> ClearAddresses();
+#		}
 
 
 #############################################################################################
