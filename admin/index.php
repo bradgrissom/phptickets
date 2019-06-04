@@ -1516,7 +1516,8 @@ File Version	: 1.9
 
 	// IF FORM IS NOT FILLED OUT CORRECTLY THEN SHOW ERROR MESSAGES
 
-				IF ($_POST['message'] == '' || $_POST['name'] == '' || $_POST['email'] == '' || !ereg('^..*\@.+\..+[A-Za-z0-9]$', $_POST['email']) || $_POST['ticketsubject'] == '')
+				#IF ($_POST['message'] == '' || $_POST['name'] == '' || $_POST['email'] == '' || !ereg('^..*\@.+\..+[A-Za-z0-9]$', $_POST['email']) || $_POST['ticketsubject'] == '')
+				IF ($_POST['message'] == '' || $_POST['name'] == '' || $_POST['email'] == '' || $_POST['email']) || $_POST['ticketsubject'] == '')
 					{
 ?>
 					<table width="<?php echo $maintablewidth ?>" cellspacing="1" cellpadding="1" class="boxborder" align="<?php echo $maintablealign ?>">
