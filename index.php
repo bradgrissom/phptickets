@@ -134,7 +134,7 @@ File Version	: 1.9
 
 						$query = "	UPDATE tickets_users
 								SET
-								tickets_users_newlogin	     = '".mktime()."',
+								tickets_users_newlogin	     = '".time()."',
 								tickets_users_lastlogin	     = '".$row['0']."'
 								WHERE tickets_users_username = '".$_SESSION['stu_username']."'";
 
@@ -742,7 +742,7 @@ File Version	: 1.9
 							SET
 							tickets_username  = '".$_SESSION['stu_username']."',
 							tickets_subject   = '".$_POST['postsubject']."',
-							tickets_timestamp = '".mktime()."',
+							tickets_timestamp = '".time()."',
 							tickets_urgency   = '".$urgency['0']."',
 							tickets_category  = '".$category['0']."',
 							tickets_child 	  = '".$_GET['ticketid']."',
@@ -1079,7 +1079,7 @@ File Version	: 1.9
 							SET
 							tickets_username  = '".$_SESSION['stu_username']."',
 							tickets_subject	  = '".$_POST['ticketsubject']."',
-							tickets_timestamp = '".mktime()."',
+							tickets_timestamp = '".time()."',
 							tickets_name	  = '".$_POST['name']."',
 							tickets_email	  = '".$_POST['email']."',
 							tickets_urgency	  = '".$urgency['0']."',
