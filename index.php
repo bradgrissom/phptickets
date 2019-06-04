@@ -92,16 +92,16 @@ File Version	: 1.9
 		<table width="<?php echo $maintablewidth ?>" cellspacing="1" cellpadding="1" class="boxborder" align="<?php echo $maintablealign ?>">
 		  <tr>
 			<td class="boxborder text" bgcolor="<?php echo $background ?>"><?php echo $_GET['action'] ?></td>
-			<td class="boxborder list-menu" width="15%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?action=Login"><?php echo $text_login ?></a></td>
+			<td class="boxborder list-menu" width="15%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=Login"><?php echo $text_login ?></a></td>
 <?php
 		IF (isset($allowreg) && $allowreg == 'ON')
 			{
 ?>
-			<td class="boxborder list-menu" width="15%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?action=Register"><?php echo $text_register ?></a></td>
+			<td class="boxborder list-menu" width="15%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=Register"><?php echo $text_register ?></a></td>
 <?php
 			}
 ?>
-			<td class="boxborder list-menu" width="15%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?action=Resend"><?php echo $text_resend ?></a></td>
+			<td class="boxborder list-menu" width="15%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=Resend"><?php echo $text_resend ?></a></td>
 			<td class="boxborder list-menu" width="10%"><a href="javascript:popwindow('help.php#userpage','top=150,left=300,width=400,height=400,buttons=no,scrollbars=YES,location=no,menubar=no,resizable=no,status=no,directories=no,toolbar=no')"><?php echo $text_help ?></a></td>
 		  </tr>
 		</table>
@@ -141,7 +141,7 @@ File Version	: 1.9
 						$result = mysqli_query($dbcon, $query);
 						}
 ?>
-					<meta http-equiv="refresh" content="0;url=<?php echo $_SERVER['PHP_SELF'] ?>" />
+					<meta http-equiv="refresh" content="0;url=<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" />
 <?php
 					}
 				ELSE
@@ -161,7 +161,7 @@ File Version	: 1.9
 			ELSE
 				{
 ?>
-				<form action="<?php echo $_SERVER['PHP_SELF'] ?>?action=Login&amp;sub=verify" method="post">
+				<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=Login&amp;sub=verify" method="post">
 				<table width="<?php echo $maintablewidth ?>" cellspacing="1" cellpadding="1" class="boxborder" align="<?php echo $maintablealign ?>">
 				  <tr>
 					<td class="text" align="center"><br />
@@ -240,7 +240,7 @@ File Version	: 1.9
 				  </tr>
 				</table><br />
 
-				<form action="<?php echo $_SERVER['PHP_SELF'] ?>?action=Resend&amp;sub=verify" method="post">
+				<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=Resend&amp;sub=verify" method="post">
 				<table width="300" cellspacing="1" cellpadding="1" class="boxborder" align="center">
 				  <tr>
 					<td width="100%" class="boxborder text"><?php echo $text_email ?>:</td>
@@ -340,7 +340,7 @@ File Version	: 1.9
 				  </tr>
 				</table><br />
 
-				<form action="<?php echo $_SERVER['PHP_SELF'] ?>?action=Register&amp;sub=verify" method="post">
+				<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?action=Register&amp;sub=verify" method="post">
 				<table width="300" cellspacing="1" cellpadding="1" class="boxborder" align="center">
 				  <tr>
 					<td class="boxborder text"><?php echo $text_regname ?></td>
@@ -390,10 +390,10 @@ File Version	: 1.9
 ########################### DISPLAY THE PAGE TITLE AND NAVIGATION ###########################
 #############################################################################################
 ?>
-	<form action="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=home" method="post">
+	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=home" method="post">
 	<table width="<?php echo $maintablewidth ?>" cellspacing="1" cellpadding="1" align="<?php echo $maintablealign ?>">
 	  <tr>
-		<td><a href="<?php echo $_SERVER['PHP_SELF'] ?>"><img src="images/support_tickets_logo.gif" width="83" height="61" title="Triangle Solutions PHP Support Tickets" alt="Triangle Solutions PHP Support Tickets" vspace="2" border="0" /></td>
+		<td><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"><img src="images/support_tickets_logo.gif" width="83" height="61" title="Triangle Solutions PHP Support Tickets" alt="Triangle Solutions PHP Support Tickets" vspace="2" border="0" /></td>
 		<td valign="bottom" align="right" class="text" style="padding:2px">Search Tickets:
 		<input name="keywords" size="24" onfocus="javascript:this.value=''" value="Search Ticket Subject" />
 		<input type="submit" value="Go" />
@@ -404,11 +404,11 @@ File Version	: 1.9
 
 	<table width="<?php echo $maintablewidth ?>" cellspacing="1" cellpadding="1" class="boxborder" align="<?php echo $maintablealign ?>">
 	  <tr>
-		<td class="boxborder text" bgcolor="<?php echo $background ?>"><a href="<?php echo $_SERVER['PHP_SELF'] ?>"><?php echo $text_titlelink ?></a> - <?php echo $text_title ?></td>
-		<td class="boxborder list-menu" width="15%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=NewTicket"><?php echo $text_titlereq ?></a></td>
-		<td class="boxborder list-menu" width="15%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=home&amp;order=Open"><?php echo $text_titleope ?></a></td>
-		<td class="boxborder list-menu" width="15%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=home&amp;order=Closed"><?php echo $text_titleclo ?></a></td>
-		<td class="boxborder list-menu" width="10%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=home&amp;action=Logout"><?php echo $text_titlelog ?></a></td>
+		<td class="boxborder text" bgcolor="<?php echo $background ?>"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>"><?php echo $text_titlelink ?></a> - <?php echo $text_title ?></td>
+		<td class="boxborder list-menu" width="15%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=NewTicket"><?php echo $text_titlereq ?></a></td>
+		<td class="boxborder list-menu" width="15%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=home&amp;order=Open"><?php echo $text_titleope ?></a></td>
+		<td class="boxborder list-menu" width="15%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=home&amp;order=Closed"><?php echo $text_titleclo ?></a></td>
+		<td class="boxborder list-menu" width="10%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=home&amp;action=Logout"><?php echo $text_titlelog ?></a></td>
 	  </tr>
 	</table>
 
@@ -615,7 +615,7 @@ File Version	: 1.9
 ?>
 					<tr align="center" bgcolor="<?php echo UseColor() ?>">
 						<td class="boxborder"><input type="checkbox" name="ticket[]" value="<?php echo $row['tickets_id'] ?>" /></td>
-						<td class="boxborder list-menu"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=view&amp;ticketid=<?php echo $row['tickets_id'] ?>"><?php echo $row['tickets_id'] ?></a></td>
+						<td class="boxborder list-menu"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=view&amp;ticketid=<?php echo $row['tickets_id'] ?>"><?php echo $row['tickets_id'] ?></a></td>
 						<td class="boxborder text">[<?php echo $rowA['ticket_count'] ?>]
 <?php
 					IF (isset($rowA['date']) && ($rowA['date'] > $rowA['tickets_users_lastlogin']))
@@ -755,7 +755,7 @@ File Version	: 1.9
 
 						IF ($allowattachments == 'TRUE' && (!isset($_COOKIE['demomode']) || $demomode != 'ON'))
 							{
-							FileUploadsVerification("$_FILES(userfile)", mysqli_insert_id());
+							FileUploadsVerification("$_FILES(userfile)", mysqli_insert_id($dbcon));
 							}
 
 	// EMAIL ADMINISTRATOR THE TICKET NOTIFICATION
@@ -835,7 +835,7 @@ File Version	: 1.9
 
 	// PRINT OUT THE TABLES TO HOLD THE TICKET INFO - REPLY SUBMISSION AND TOPIC AND ANY REPLIES AND ATTACHMENTS
 ?>
-			<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=view&amp;ticketid=<?php echo $_GET['ticketid'] ?>&amp;sub=add" method="post">
+			<form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=view&amp;ticketid=<?php echo $_GET['ticketid'] ?>&amp;sub=add" method="post">
 			<table width="<?php echo $maintablewidth ?>" cellspacing="1" cellpadding="1" class="boxborder" align="<?php echo $maintablealign ?>">
 			  <tr>
 				<td class="boxborder" width="50%" valign="top" style="padding-top:5px">
@@ -847,13 +847,13 @@ File Version	: 1.9
 			IF ($row['tickets_status'] == 'Open')
 				{
 ?>
-				<td class="boxborder list-menu" width="30%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=view&amp;ticketid=<?php echo $_GET['ticketid'] ?>&amp;closesub=Closed">Close Ticket</a></td>
+				<td class="boxborder list-menu" width="30%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=view&amp;ticketid=<?php echo $_GET['ticketid'] ?>&amp;closesub=Closed">Close Ticket</a></td>
 <?php
 				}
 			ELSE
 				{
 ?>
-				<td class="boxborder list-menu"" width="30%"><a href="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=view&amp;ticketid=<?php echo $_GET['ticketid'] ?>&amp;closesub=Open">Reopen Ticket</a></td>
+				<td class="boxborder list-menu"" width="30%"><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=view&amp;ticketid=<?php echo $_GET['ticketid'] ?>&amp;closesub=Open">Reopen Ticket</a></td>
 <?php
 				}
 ?>
@@ -1029,7 +1029,7 @@ File Version	: 1.9
 			IF (isset($refresh) && $refresh == 'TRUE')
 				{
 ?>
-				<meta http-equiv="refresh" content="2;URL=<?php echo $_SERVER['PHP_SELF'] ?>?caseid=view&amp;ticketid=<?php echo $_GET['ticketid'] ?>" />
+				<meta http-equiv="refresh" content="2;URL=<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=view&amp;ticketid=<?php echo $_GET['ticketid'] ?>" />
 <?php
 				}
 
@@ -1088,17 +1088,17 @@ File Version	: 1.9
 
 					IF ($result = mysqli_query($dbcon, $query))
 						{
-						$lastinsertid = mysqli_insert_id();
+						$lastinsertid = mysqli_insert_id($dbcon);
 
 	// CHECK THE FILE ATTACHMENT AND DISPLAY ANY ERRORS
 
 						IF ($allowattachments == 'TRUE' && !isset($_COOKIE['demomode']) || $demomode != 'ON')
 							{
-							FileUploadsVerification("$_FILES(userfile)", mysqli_insert_id());
+							FileUploadsVerification("$_FILES(userfile)", mysqli_insert_id($dbcon));
 							}
 	// EMAIL ADMINISTRATOR THE TICKET NOTIFICATION
 
-						$message  = "Ticket ID:\t ".mysqli_insert_id()."\n";
+						$message  = "Ticket ID:\t ".mysqli_insert_id($dbcon)."\n";
 						$message .= "Name:\t\t ".$_POST['name']."\n";
 						$message .= "Email:\t ".$_POST['email']."\n";
 						$message .= "Subject:\t ".$_POST['ticketsubject']."\n";
@@ -1155,7 +1155,7 @@ File Version	: 1.9
 				$row['tickets_users_email'] = '';
 				}
 ?>
-			<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'] ?>?caseid=NewTicket&amp;sub=add" method="post">
+			<form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=NewTicket&amp;sub=add" method="post">
 			<table width="<?php echo $maintablewidth ?>" cellspacing="1" cellpadding="1" class="boxborder" align="<?php echo $maintablealign ?>">
 			  <tr>
 				<td class="boxborder" width="50%" valign="top" style="padding-top:5px">
@@ -1305,7 +1305,7 @@ File Version	: 1.9
 			IF (isset($refresh) && $refresh == 'TRUE')
 				{
 ?>
-				<meta http-equiv="refresh" content="2;URL=<?php echo $_SERVER['PHP_SELF'] ?>?caseid=view&amp;ticketid=<?php echo $lastinsertid ?>" />
+				<meta http-equiv="refresh" content="2;URL=<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>?caseid=view&amp;ticketid=<?php echo $lastinsertid ?>" />
 <?php
 				}
 
