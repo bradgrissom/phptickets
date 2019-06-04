@@ -174,14 +174,14 @@ File Version	: 1.9
 				WHERE tickets_users_username = '$user'
 				AND tickets_users_status = '1'";
 
-		$result = mysql_query($query);
+		$result = mysqli_query($query);
 
 		IF (!$result)
 			{
 			return 0;
 			}
 
-		IF (($row = mysql_fetch_array($result)) && ($pass == $row['tickets_users_password'] && $pass != ''))
+		IF (($row = mysqli_fetch_array($result)) && ($pass == $row['tickets_users_password'] && $pass != ''))
 			{
 			return 1;
 			}
