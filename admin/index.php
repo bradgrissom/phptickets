@@ -1520,11 +1520,7 @@ File Version	: 1.9
 				IF ($_POST['message'] == '' || $_POST['name'] == '' || $_POST['email'] == '' || $_POST['ticketsubject'] == '')
 					{
 ?>
-					<table width="<?php echo $maintablewidth ?>" cellspacing="1" cellpadding="1" class="boxborder" align="<?php echo $maintablealign ?>">
-					  <tr bgcolor="#AACCEE">
-						<td class="text">Please complete all the fields.</td>
-					  </tr>
-					</table>
+						<h1>Please complete all the fields!</h1>
 <?php
 					}
 
