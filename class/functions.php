@@ -55,7 +55,7 @@ File Version	: 1.9
 
 	IF ($link = mysqli_connect($host, $user, $pass))
 		{
-		IF (!mysqli_select_db($data))
+		IF (!mysqli_select_db($link, $data))
 			{
 			echo 'This script has connected to the MySQL but could not connect to the Database - change database name in config.';
 			exit();
